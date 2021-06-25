@@ -1,0 +1,19 @@
+.nav {
+    background-color: white !important;
+    box-shadow: unset !important;
+    position: initial !important;
+    
+}
+.toolbar{
+    justify-content: space-between;
+    margin: 1vh 5vw;
+}
+h6 > a {
+    color: black !important;
+    text-decoration: unset !important;   
+    font-weight: 500;
+}
+.img{
+    height: 60px;
+    width: 60px;
+}

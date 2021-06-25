@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background: #f0f8fe;
+  height: 100vh;
+}
+.header {
+  background-image: url("../images/bg.jpg");
+  height: 30vh;
+  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+}
+h4 {
+  font-weight: 700;
+  font-size: xx-large;
+  color: white !important;
+  margin-left: 20vw;
+}
+.form,
+.registerButton {
+  border: 1px solid #e9ecef;
+  width: 50%;
+  margin-top: -5vh;
+  margin-left: 25vw;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 4px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 5%);
+}
+.registerButton {
+  text-align: center;
+  margin-top: 5vh;
+  background: rgb(202, 235, 242);
+}
+.registerButton > h3 {
+  font-weight: bold;
+  font-size: large;
+}
+button {
+  padding: 10px !important;
+}
+.errorLabel > .ant-form-item-label {
+  transition: 500ms all;
+  min-height: 5vh !important;
+}
+.errorLabel > .ant-form-item-label > label {
+  color: red !important;
+}
+.errorLabel > .ant-form-item-control {
+  max-width: 0px;
+  max-height: 0px;
+}
