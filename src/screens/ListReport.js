@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState,useRef } from "react";
 import {
   Container,
   FormControl,
@@ -23,9 +23,17 @@ const ListReport = () => {
   const [reportTypeValue, setReportTypeValue] = useState("");
   const [incidentObjectValue, setIncidentObjectValue] = useState("");
   const [reports, setReports] = useState([]);
+  const [page,setPage] = useState(1);
+  const  prePage = useRef(1);
   const onSubmit = (values) => {
     console.log(values);
   };
+  const onPageChange = (params) =>{
+    if (params.page + 1 === params.pageCount){
+      console.log("OK");
+      setPage(page + 1);
+    }
+  }
   const classes = useStyles();
   useEffect(() => {
     let getData = async () => {
@@ -52,9 +60,9 @@ const ListReport = () => {
         }
       }
       if (
-        reportStatus.length === 0 ||
-        reportType.length === 0 ||
-        incidentObject.length === 0
+        incidentList.length === 0 ||
+        reportTypeList.length === 0 ||
+        reportStatusList.length === 0
       ) {
         let response = await axios.post(
           "https://qlsc.maysoft.io/server/api/getCommon",
@@ -76,7 +84,7 @@ const ListReport = () => {
       }
       let response_report = await axios.post(
         "https://qlsc.maysoft.io/server/api/getAllReports",
-        { page: 1 },
+        { page: page },
         {
           headers: {
             authorization: auth,
@@ -104,14 +112,25 @@ const ListReport = () => {
           let date = fromUnixTime(report.reportTime);
           report.reportTime = format(date,"dd/MM/yyyy HH:mm");
         });
-        setReports(reportsList);
+        console.log(page)
+        if (prePage.current !== page){
+          console.log("Loading new reports");
+          let newReportList = [...reports,...reportsList]  
+          setReports(newReportList);
+          prePage.current = prePage.current +1 ;
+        }
+        else{
+          console.log("Create new reports");
+          setReports(reportsList);
+        }
+        
         console.log(reportsList[0]);
       } catch (e) {
         console.log(e);
       }
     };
     getData();
-  }, []);
+  }, [page]);
   return (
     <Container maxWidth="lg">
       <form className={classes.column} onSubmit={onSubmit}>
@@ -198,7 +217,7 @@ const ListReport = () => {
             </FormControl>
           </div>
         </div>
-        <CustomGird rows={reports} />
+        <CustomGird rows={reports} onPageChange={onPageChange} />
       </form>
     </Container>
   );

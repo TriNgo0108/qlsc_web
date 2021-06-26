@@ -5,33 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import useStyles from "../styles/styles";
 import clsx from "clsx";
-
-// const rows = [
-//   {
-//     id: 1,
-//     index:"01",
-//     status: "Phân tích",
-//     reportCode: "MAYR-21-00064",
-//     reportType: "Bắt buộc",
-//     incidentObject: "Trang thiết bị/cở sở hạ tầng",
-//     reportDate: "19/02/2021 11:51",
-//     detector: "Tôi là nhà báo cáo sự cố",
-//     description: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-//   },
-//   {
-//     id: 2,
-//     index:"01",
-//     status: "Phân tích",
-//     reportCode: "MAYR-21-00064",
-//     reportType: "Bắt buộc",
-//     incidentObject: "Trang thiết bị/cở sở hạ tầng",
-//     reportDate: "19/02/2021 11:51",
-//     detector: "Tôi là nhà báo cáo sự cố",
-//     description: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-//   },
-// ];
-
-export default function CustomGird({rows}) {
+export default function CustomGird({rows,onPageChange}) {
   const classes = useStyles();
   const columns = [
     {
@@ -69,6 +43,7 @@ export default function CustomGird({rows}) {
         pageSize={5}
         disableSelectionOnClick={true}
         disableColumnMenu={true}
+        onPageChange={onPageChange}
       />
     </div>
   );
