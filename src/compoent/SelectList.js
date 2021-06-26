@@ -12,7 +12,7 @@ const SelectList = ({ value, onChange, items, id, placeHolder, classes }) => {
       </option>
     );
   });
-  options = [<option key="aaaaa">{placeHolder}</option>, ...options];
+  options = [<option key="aaaaa" value="">{placeHolder}</option>, ...options];
   return (
     <Select
       classes={{ root: classes }}

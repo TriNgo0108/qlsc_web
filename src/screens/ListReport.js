@@ -36,6 +36,23 @@ const ListReport = () => {
       setLoading(true);
     }
   }
+  const objectData = (page,incidentObject,reportStatus,reportType,department)=>{
+      let data = {page:page};
+      if (incidentObject !== ""){
+        data.incidentObject = incidentObject;
+      }
+      if (reportStatus !== ""){
+        data.status = reportStatus;
+      }
+      if (reportType !== ""){
+        data.reportType = reportType;
+      }
+      if (department !== ""){
+        data.departmentId = department;
+      }
+      console.log(data);
+        return data;
+  }
   const classes = useStyles();
   useEffect(() => {
     let getData = async () => {
@@ -46,6 +63,7 @@ const ListReport = () => {
       let reportTypeList = [];
       let reportStatusList = [];
       let reportsList = [];
+      
       if (department.length === 0) {
         let response_dept = await axios.post(
           "https://qlsc.maysoft.io/server/api/getAllDepartments",
@@ -68,7 +86,7 @@ const ListReport = () => {
       ) {
         let response = await axios.post(
           "https://qlsc.maysoft.io/server/api/getCommon",
-          { groups: "incidentObject, reportStatus, reportType" },
+          { groups: "incidentObject, reportStatus, reportType"},
           {
             headers: {
               authorization: auth,
@@ -86,7 +104,7 @@ const ListReport = () => {
       }
       let response_report = await axios.post(
         "https://qlsc.maysoft.io/server/api/getAllReports",
-        { page: page },
+        objectData(page,incidentObjectValue,reportStatusValue,reportTypeValue,departmentValue),
         {
           headers: {
             authorization: auth,
@@ -94,7 +112,12 @@ const ListReport = () => {
         }
       );
       if (response_report.status === 200) {
-        reportsList = response_report.data.data.data;
+        if (response_report.data.code === 200){
+          reportsList = response_report.data.data.data;
+        }
+        else{
+          reportsList = [];
+        }
         setLoading(false)
       }
       try {
@@ -133,7 +156,7 @@ const ListReport = () => {
       }
     };
     getData();
-  }, [page]);
+  }, [page,departmentValue,incidentObjectValue,reportStatusValue,reportTypeValue]);
   return (
     <Container maxWidth="lg">
       <form className={classes.column} onSubmit={onSubmit}>
@@ -164,6 +187,7 @@ const ListReport = () => {
                 value={departmentValue}
                 onChange={(event) => {
                   setDepartmentValue(event.target.value);
+                  setLoading(true);
                 }}
                 items={department}
                 id="department"
@@ -180,6 +204,7 @@ const ListReport = () => {
                 value={reportStatusValue}
                 onChange={(event) => {
                   setReportStatusValue(event.target.value);
+                  setLoading(true);
                 }}
                 items={reportStatus}
                 id="reportStatus"
@@ -196,6 +221,7 @@ const ListReport = () => {
                 value={reportTypeValue}
                 onChange={(event) => {
                   setReportTypeValue(event.target.value);
+                  setLoading(true);
                 }}
                 items={reportType}
                 id="reportType"
@@ -212,6 +238,7 @@ const ListReport = () => {
                 value={incidentObjectValue}
                 onChange={(event) => {
                   setIncidentObjectValue(event.target.value);
+                  setLoading(true);
                 }}
                 items={incidentObject}
                 id="incidentObject"
