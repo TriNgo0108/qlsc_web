@@ -109,12 +109,13 @@ const useStyles = makeStyles((theme) => ({
     padding: "8px 9px"
   },
   girdData:{
-    outline:"none !important"
-  },
-  hideButton:{
+    outline:"none !important",
     "& button":{
       display:"none"
     }
+  },
+  hideButton:{
+    
   },
   overFlow:{
     overflow:"unset !important",

@@ -63,7 +63,6 @@ export default function CustomGird({rows}) {
         classes={{
           columnHeader: clsx(classes.girdData, classes.lastChild),
           cell: clsx(classes.girdData, classes.overFlow),
-          root: classes.hideButton,
         }}
         rows={rows}
         columns={columns}
