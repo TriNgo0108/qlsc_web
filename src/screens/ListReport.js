@@ -24,6 +24,7 @@ const ListReport = () => {
   const [incidentObjectValue, setIncidentObjectValue] = useState("");
   const [reports, setReports] = useState([]);
   const [page,setPage] = useState(1);
+  const [isLoading,setLoading]=useState(true);
   const  prePage = useRef(1);
   const onSubmit = (values) => {
     console.log(values);
@@ -32,6 +33,7 @@ const ListReport = () => {
     if (params.page + 1 === params.pageCount){
       console.log("OK");
       setPage(page + 1);
+      setLoading(true);
     }
   }
   const classes = useStyles();
@@ -93,6 +95,7 @@ const ListReport = () => {
       );
       if (response_report.status === 200) {
         reportsList = response_report.data.data.data;
+        setLoading(false)
       }
       try {
         reportsList.forEach((report,index) => {
@@ -217,7 +220,7 @@ const ListReport = () => {
             </FormControl>
           </div>
         </div>
-        <CustomGird rows={reports} onPageChange={onPageChange} />
+        <CustomGird rows={reports} onPageChange={onPageChange} loading={isLoading} />
       </form>
     </Container>
   );

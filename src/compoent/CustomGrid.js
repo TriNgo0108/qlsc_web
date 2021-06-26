@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import useStyles from "../styles/styles";
 import clsx from "clsx";
-export default function CustomGird({rows,onPageChange}) {
+export default function CustomGird({rows,onPageChange,loading}) {
   const classes = useStyles();
   const columns = [
     {
@@ -44,6 +44,7 @@ export default function CustomGird({rows,onPageChange}) {
         disableSelectionOnClick={true}
         disableColumnMenu={true}
         onPageChange={onPageChange}
+        loading={loading}
       />
     </div>
   );
