@@ -1,33 +1,42 @@
-import React from "react";
+import * as React from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
-
 import useStyles from "../styles/styles";
 import clsx from "clsx";
 
-const rows = [
-  {
-    id: 1,
-    index:"01",
-    status: "Phân tích",
-    reportCode: "MAYR-21-00064",
-    reportType: "Bắt buộc",
-    incidentObject: "Trang thiết bị/cở sở hạ tầng",
-    reportDate: "19/02/2021 11:51",
-    detector: "Tôi là nhà báo cáo sự cố",
-    description: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  },
-];
+// const rows = [
+//   {
+//     id: 1,
+//     index:"01",
+//     status: "Phân tích",
+//     reportCode: "MAYR-21-00064",
+//     reportType: "Bắt buộc",
+//     incidentObject: "Trang thiết bị/cở sở hạ tầng",
+//     reportDate: "19/02/2021 11:51",
+//     detector: "Tôi là nhà báo cáo sự cố",
+//     description: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+//   },
+//   {
+//     id: 2,
+//     index:"01",
+//     status: "Phân tích",
+//     reportCode: "MAYR-21-00064",
+//     reportType: "Bắt buộc",
+//     incidentObject: "Trang thiết bị/cở sở hạ tầng",
+//     reportDate: "19/02/2021 11:51",
+//     detector: "Tôi là nhà báo cáo sự cố",
+//     description: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+//   },
+// ];
 
-export default function CustomGird() {
+export default function CustomGird({rows}) {
   const classes = useStyles();
   const columns = [
     {
       field: "index",
       headerName: "#",
-      flex: 1,
       renderCell: (params) => {
         <div className={classes.row}>
           <span>{params.value}</span>
@@ -41,12 +50,12 @@ export default function CustomGird() {
       },
     },
     { field: "status", headerName: "Trạng thái", width: 100 },
-    { field: "reportCode", headerName: "Mã BC", width: 100 },
+    { field: "reportNo", headerName: "Mã BC", width: 100 },
     { field: "reportType", headerName: "Loại BC", width: 100 },
     { field: "incidentObject", headerName: "Đối tượng", width: 150 },
-    { field: "reportDate", headerName: "Ngày báo cáo", width: 150 },
+    { field: "reportTime", headerName: "Ngày báo cáo", width: 150 },
     { field: "detector", headerName: "Người báo cáo", width: 150 },
-    { field: "description", headerName: "Mô tả", width: 150, flex: 1 },
+    { field: "detailDescription", headerName: "Mô tả", width: 150, flex: 1 },
   ];
   return (
     <div style={{ height: 400, width: "100%", marginTop: 20 }}>
