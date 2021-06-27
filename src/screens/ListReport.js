@@ -11,9 +11,9 @@ import SelectList from "../compoent/SelectList";
 import clsx from "clsx";
 import axios from "axios";
 import CustomGird from "../compoent/CustomGrid";
-import { fromUnixTime,format } from "date-fns";
+import { fromUnixTime,format,getUnixTime } from "date-fns";
 
-const ListReport = () => {
+const ListReport = ({fromDate,toDate}) => {
   const [department, setDepartment] = useState([]);
   const [incidentObject, setIncidentObject] = useState([]);
   const [reportStatus, setReportStatus] = useState([]);
@@ -24,10 +24,20 @@ const ListReport = () => {
   const [incidentObjectValue, setIncidentObjectValue] = useState("");
   const [reports, setReports] = useState([]);
   const [page,setPage] = useState(1);
-  const [isLoading,setLoading]=useState(true);
+  const [searchKey,setSearchKey] = useState("");
+  const [isLoading,setLoading] = useState(true);
+  const searchRef = useRef("");
   const  prePage = useRef(1);
-  const onSubmit = (values) => {
-    console.log(values);
+  const incidentList = useRef([]);
+  const reportTypeList = useRef([]);
+  const reportStatusList = useRef([]);
+  const departmentList = useRef([]);
+  const preFromDate = useRef(fromDate);
+  const preToDate = useRef(toDate);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setSearchKey(searchRef.current.value);
+    setLoading(true);
   };
   const onPageChange = (params) =>{
     if (params.page + 1 === params.pageCount){
@@ -36,7 +46,7 @@ const ListReport = () => {
       setLoading(true);
     }
   }
-  const objectData = (page,incidentObject,reportStatus,reportType,department)=>{
+  const objectData = (page,incidentObject,reportStatus,reportType,department,fromDate,toDate,searchKey)=>{
       let data = {page:page};
       if (incidentObject !== ""){
         data.incidentObject = incidentObject;
@@ -50,6 +60,13 @@ const ListReport = () => {
       if (department !== ""){
         data.departmentId = department;
       }
+      if (fromDate !== preFromDate.current || toDate !== preToDate.current){
+        data.reportTime = `${getUnixTime(fromDate)},${getUnixTime(toDate)}`
+      }
+      if (searchKey !== ""){
+        data.searchKey = searchKey;
+      }
+      
       console.log(data);
         return data;
   }
@@ -59,12 +76,9 @@ const ListReport = () => {
       let accessToken = sessionStorage.getItem("accessToken");
       let tokenType = sessionStorage.getItem("tokenType");
       let auth = `${tokenType} ${accessToken}`;
-      let incidentList = [];
-      let reportTypeList = [];
-      let reportStatusList = [];
       let reportsList = [];
       
-      if (department.length === 0) {
+      if (departmentList.current.length === 0) {
         let response_dept = await axios.post(
           "https://qlsc.maysoft.io/server/api/getAllDepartments",
           {},
@@ -75,14 +89,14 @@ const ListReport = () => {
           }
         );
         if (response_dept.status === 200) {
-          let data = response_dept.data.data.data;
-          setDepartment(data);
+          departmentList.current = response_dept.data.data.data;
+          setDepartment(departmentList.current);
         }
       }
       if (
-        incidentList.length === 0 ||
-        reportTypeList.length === 0 ||
-        reportStatusList.length === 0
+        incidentList.current.length === 0 ||
+        reportTypeList.current.length === 0 ||
+        reportStatusList.current.length === 0
       ) {
         let response = await axios.post(
           "https://qlsc.maysoft.io/server/api/getCommon",
@@ -94,17 +108,17 @@ const ListReport = () => {
           }
         );
         if (response.status === 200) {
-          reportStatusList = response.data.data.reportStatus;
-          reportTypeList = response.data.data.reportType;
-          incidentList = response.data.data.incidentObject;
-          setIncidentObject(incidentList);
-          setReportStatus(reportTypeList);
-          setReportType(incidentList);
+          reportStatusList.current = response.data.data.reportStatus;
+          reportTypeList.current = response.data.data.reportType;
+          incidentList.current = response.data.data.incidentObject;
+          setIncidentObject(incidentList.current);
+          setReportStatus(reportTypeList.current);
+          setReportType(incidentList.current);
         }
       }
       let response_report = await axios.post(
         "https://qlsc.maysoft.io/server/api/getAllReports",
-        objectData(page,incidentObjectValue,reportStatusValue,reportTypeValue,departmentValue),
+        objectData(page,incidentObjectValue,reportStatusValue,reportTypeValue,departmentValue,fromDate,toDate,searchKey),
         {
           headers: {
             authorization: auth,
@@ -123,15 +137,15 @@ const ListReport = () => {
       try {
         reportsList.forEach((report,index) => {
           report.index = index +1 ;
-          let statusName = reportStatusList.filter(
+          let statusName = reportStatusList.current.filter(
             (status) => status.code.toString() === report.status
           );
           report.status = statusName[0].name;
-          let typeName = reportTypeList.filter(
+          let typeName = reportTypeList.current.filter(
             (type) => type.code === report.reportType
           );
           report.reportType = typeName[0].name;
-          let incidentName = incidentList.filter(
+          let incidentName = incidentList.current.filter(
             (incident) => incident.code === report.incidentObject
           );
           report.incidentObject = incidentName[0].name;
@@ -156,18 +170,20 @@ const ListReport = () => {
       }
     };
     getData();
-  }, [page,departmentValue,incidentObjectValue,reportStatusValue,reportTypeValue]);
+  }, [page,departmentValue,incidentObjectValue,reportStatusValue,reportTypeValue,fromDate,toDate,searchKey]);
   return (
     <Container maxWidth="lg">
-      <form className={classes.column} onSubmit={onSubmit}>
+      <form method="post" className={classes.column} onSubmit={onSubmit}>
         <div className={classes.row}>
           <div className={classes.searchBox}>
             <FormControl focused={false} fullWidth={true} variant="outlined">
               <OutlinedInput
                 classes={{ root: classes.searchInput, input: classes.input }}
                 placeholder="Tìm tên người báo cáo, số bệnh án"
+                name="searchKey"
                 id="search"
                 aria-describedby="desSearch"
+                inputRef={searchRef}
                 endAdornment={
                   <InputAdornment position="end">
                     <SearchIcon />

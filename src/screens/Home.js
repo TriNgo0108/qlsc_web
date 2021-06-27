@@ -169,7 +169,7 @@ const Home = () => {
       </div>
       <div className={classes.main}>
         <div className={classes.reportContainer}>
-          <ListReport />
+          <ListReport fromDate={fromDate} toDate={toDate} />
         </div>
       </div>
     </div>
