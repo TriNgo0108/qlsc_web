@@ -24,108 +24,112 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  active:{
-    "& a":{
-      color:"#ff9933 !important"
-    }
+  active: {
+    "& a": {
+      color: "#ff9933 !important",
+    },
   },
   nextNav: {
     backgroundImage: `url(${bg})`,
     height: "30vh",
     backgroundSize: "cover",
     backgroundPosition: "center",
-    justifyContent:'space-between'
+    justifyContent: "space-between",
   },
   main: {
     backgroundColor: "#f0f8fe",
-    height:'55vh'
+    height: "55vh",
   },
   textBackground: {
     color: "white",
     marginLeft: "5vw",
-    alignSelf:"center"
+    alignSelf: "center",
   },
   column: {
     display: "flex",
     flexDirection: "column",
   },
-  datePicker:{
-    background:"white",
-    alignSelf:"center",
-    marginRight:"5vw",
-    padding:'5px',
-    borderRadius:"4px"
+  datePicker: {
+    background: "white",
+    alignSelf: "center",
+    marginRight: "5vw",
+    padding: "5px",
+    borderRadius: "4px",
   },
-  reportText:{
-    alignSelf:'center'
+  reportText: {
+    alignSelf: "center",
   },
-  dateInput:{
+  dateInput: {
     width: "12vw",
   },
-  noneBackground:{
-    background:"none !import"
+  noneBackground: {
+    background: "none !import",
   },
-  centerButon:{
-    alignSelf:"center",
-    marginRight:"2vw"
+  centerButon: {
+    alignSelf: "center",
+    marginRight: "2vw",
   },
-  arrow:{
-    fontSize:"20px"
+  arrow: {
+    fontSize: "20px",
   },
-  reportContainer:{
-    background:"white",
-    padding:'20px',
-    marginTop:"-5vh",
-    marginLeft:"4vw",
-    marginRight:"4vw",
-    boxShadow:"0 2px 8px rgb(0 0 0 / 5%)",
-    borderRadius:"4px"
+  reportContainer: {
+    background: "white",
+    padding: "20px",
+    marginTop: "-5vh",
+    marginLeft: "4vw",
+    marginRight: "4vw",
+    boxShadow: "0 2px 8px rgb(0 0 0 / 5%)",
+    borderRadius: "4px",
   },
-  searchBox:{
-    width:"25vw"
+  searchBox: {
+    width: "25vw",
   },
-  searchInput:{
-      "&:focus-within":{
-        borderColor:"#80bdff !important",
-        outline:"0px !important",
-        boxShadow:" 0 0 0 0.2rem rgb(0 123 255 / 25%)",
-        borderRadius:"4px"
-      }
-  },
-  borderContainer:{
-    borderRadius:"4px"
-  },
-  select:{
-    "&:focus":{
-      backgroundColor:"#fff"
+  searchInput: {
+    "&:focus-within": {
+      borderColor: "#80bdff !important",
+      outline: "0px !important",
+      boxShadow: " 0 0 0 0.2rem rgb(0 123 255 / 25%)",
+      borderRadius: "4px",
     },
-    width:"8vw",
-    padding: "8px 9px"
   },
-  marignSelect:{
-    marginLeft:"4vw",
+  borderContainer: {
+    borderRadius: "4px",
   },
-  input:{
-    padding: "8px 9px"
+  select: {
+    "&:focus": {
+      backgroundColor: "#fff",
+    },
+    width: "8vw",
+    padding: "8px 9px",
   },
-  girdData:{
-    outline:"none !important",
-    "& button":{
-      display:"none"
-    }
+  marignSelect: {
+    marginLeft: "4vw",
   },
-  hideButton:{
-    
+  input: {
+    padding: "8px 9px",
   },
-  overFlow:{
-    overflow:"unset !important",
-    whiteSpace:"unset !important",
-    lineHeight:"unset !important",
-    overflowWrap:"break-word",
-    display:"flex !important",
-    flexDirection:"column",
-    justifyContent:"space-around"
+  girdData: {
+    outline: "none !important",
+    "& button": {
+      display: "none",
+    },
   },
-
+  hideButton: {},
+  overFlow: {
+    overflow: "unset !important",
+    whiteSpace: "unset !important",
+    lineHeight: "unset !important",
+    overflowWrap: "break-word",
+    display: "flex !important",
+    flexDirection: "column",
+    justifyContent: "space-around",
+  },
+  noRowsOverlay:{
+    "& strong": {
+      display: "flex",
+      justifyContent: "center",
+      marginTop: "33vh",
+    },
+  },
 }));
 export default useStyles;

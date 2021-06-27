@@ -1,11 +1,11 @@
-import * as React from 'react';
+import * as React from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import useStyles from "../styles/styles";
 import clsx from "clsx";
-export default function CustomGird({rows,onPageChange,loading}) {
+export default function CustomGird({ rows, onPageChange, loading }) {
   const classes = useStyles();
   const columns = [
     {
@@ -37,6 +37,7 @@ export default function CustomGird({rows,onPageChange,loading}) {
         classes={{
           columnHeader: clsx(classes.girdData, classes.lastChild),
           cell: clsx(classes.girdData, classes.overFlow),
+          root: classes.noRowsOverlay,
         }}
         rows={rows}
         columns={columns}
@@ -45,6 +46,11 @@ export default function CustomGird({rows,onPageChange,loading}) {
         disableColumnMenu={true}
         onPageChange={onPageChange}
         loading={loading}
+        components={{
+          NoRowsOverlay: () => {
+            return <strong>Không có dữ liệu</strong>;
+          },
+        }}
       />
     </div>
   );
