@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   main: {
     backgroundColor: "#f0f8fe",
-    height: "55vh",
+    height: "100%",
   },
   textBackground: {
     color: "white",
@@ -114,7 +114,6 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  hideButton: {},
   overFlow: {
     overflow: "unset !important",
     whiteSpace: "unset !important",
