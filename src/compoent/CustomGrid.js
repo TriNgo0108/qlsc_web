@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid } from "@material-ui/data-grid";
+import { DataGrid,GridColDef } from "@material-ui/data-grid";
 import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +7,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import useStyles from "../styles/styles";
 import clsx from "clsx";
 import { useState } from "react";
+
 export default function CustomGird({ rows, onPageChange, loading }) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
@@ -17,16 +18,17 @@ export default function CustomGird({ rows, onPageChange, loading }) {
       renderCell: (params) => {
         return (
           <div className={classes.row}>
-            <span>{params.value}</span>
+            <p>{params.value}</p>
             <IconButton aria-label="chat">
-              <FontAwesomeIcon icon={faComment} />
+              <FontAwesomeIcon icon={faComment} size="sm" />
             </IconButton>
             <IconButton aria-label="ellipisi">
-              <FontAwesomeIcon icon={faEllipsisH} />
+              <FontAwesomeIcon icon={faEllipsisH} size="sm" />
             </IconButton>
           </div>
         );
       },
+      flex:1
     },
     { field: "status", headerName: "Trạng thái", width: 100 },
     { field: "reportNo", headerName: "Mã BC", width: 100 },
@@ -42,7 +44,7 @@ export default function CustomGird({ rows, onPageChange, loading }) {
         classes={{
           columnHeader: clsx(classes.girdData, classes.lastChild),
           cell: clsx(classes.girdData, classes.overFlow),
-          root: clsx(classes.noRowsOverlay, classes.block),
+          root: clsx(classes.noRowsOverlay, classes.block,classes.textPadding),
         }}
         rows={rows}
         columns={columns}

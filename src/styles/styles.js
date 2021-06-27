@@ -110,9 +110,6 @@ const useStyles = makeStyles((theme) => ({
   },
   girdData: {
     outline: "none !important",
-    "& button": {
-      display: "none",
-    },
   },
   overFlow: {
     overflow: "unset !important",
@@ -137,7 +134,18 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiDataGrid-footerContainer":{
       display:"block !important",
       marginLeft:"10px"
+    },
+    "& .MuiDataGrid-iconButtonContainer":{
+      display:"none"
     }
+  },
+  textPadding:{
+      "& p":{
+        paddingTop:"10px !important",
+        paddingBottom:"10px !important",
+        marginBottom:"0px !important",
+        marginLeft:"10px"
+      }
   }
 
 }));
