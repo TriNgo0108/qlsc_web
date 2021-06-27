@@ -3,24 +3,29 @@ import { DataGrid } from "@material-ui/data-grid";
 import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
+import Pagination from "@material-ui/lab/Pagination";
 import useStyles from "../styles/styles";
 import clsx from "clsx";
+import { useState } from "react";
 export default function CustomGird({ rows, onPageChange, loading }) {
   const classes = useStyles();
+  const [page, setPage] = useState(1);
   const columns = [
     {
       field: "index",
       headerName: "#",
       renderCell: (params) => {
-        <div className={classes.row}>
-          <span>{params.value}</span>
-          <IconButton aria-label="chat">
-            <FontAwesomeIcon icon={faComment} />
-          </IconButton>
-          <IconButton aria-label="ellipisi">
-            <FontAwesomeIcon icon={faEllipsisH} />
-          </IconButton>
-        </div>;
+        return (
+          <div className={classes.row}>
+            <span>{params.value}</span>
+            <IconButton aria-label="chat">
+              <FontAwesomeIcon icon={faComment} />
+            </IconButton>
+            <IconButton aria-label="ellipisi">
+              <FontAwesomeIcon icon={faEllipsisH} />
+            </IconButton>
+          </div>
+        );
       },
     },
     { field: "status", headerName: "Trạng thái", width: 100 },
@@ -37,18 +42,39 @@ export default function CustomGird({ rows, onPageChange, loading }) {
         classes={{
           columnHeader: clsx(classes.girdData, classes.lastChild),
           cell: clsx(classes.girdData, classes.overFlow),
-          root: classes.noRowsOverlay,
+          root: clsx(classes.noRowsOverlay, classes.block),
         }}
         rows={rows}
         columns={columns}
         pageSize={5}
+        page={page-1}
         disableSelectionOnClick={true}
         disableColumnMenu={true}
-        onPageChange={onPageChange}
         loading={loading}
         components={{
           NoRowsOverlay: () => {
             return <strong>Không có dữ liệu</strong>;
+          },
+          Pagination: () => {
+            return (
+              <div className={clsx(classes.row, classes.spaceBetween)}>
+                <div>
+                  Hiển thị {rows.length === 0? 0 :page * 5 - 4} - {rows.length === 0 ? 0 :  page * 5} trên tổng {rows.length} báo
+                  cáo
+                </div>
+                <div>
+                  <Pagination
+                    count={Math.floor(rows.length / 5)}
+                    color="primary"
+                    page={page}
+                    onChange={(event, page) => {
+                      setPage(page);
+                      if (page * 5 === rows.length) onPageChange();
+                    }}
+                  />
+                </div>
+              </div>
+            );
           },
         }}
       />

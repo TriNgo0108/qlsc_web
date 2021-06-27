@@ -34,17 +34,15 @@ const ListReport = ({fromDate,toDate}) => {
   const departmentList = useRef([]);
   const preFromDate = useRef(fromDate);
   const preToDate = useRef(toDate);
+  const pageCount = useRef(0);
   const onSubmit = (event) => {
     event.preventDefault();
     setSearchKey(searchRef.current.value);
     setLoading(true);
   };
-  const onPageChange = (params) =>{
-    if (params.page + 1 === params.pageCount){
-      console.log("OK");
-      setPage(page + 1);
-      setLoading(true);
-    }
+  const onPageChange = () =>{
+    setPage(page+1);
+    setLoading(true);
   }
   const objectData = (page,incidentObject,reportStatus,reportType,department,fromDate,toDate,searchKey)=>{
       let data = {page:page};
@@ -135,8 +133,14 @@ const ListReport = ({fromDate,toDate}) => {
         setLoading(false)
       }
       try {
+        if (prePage.current === page){
+          pageCount.current = 0;
+        }
+        else{
+            pageCount.current = reportsList.length + 5;
+        }
         reportsList.forEach((report,index) => {
-          report.index = index +1 ;
+          report.index = index +1 + pageCount.current ;
           let statusName = reportStatusList.current.filter(
             (status) => status.code.toString() === report.status
           );

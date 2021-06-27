@@ -131,5 +131,15 @@ const useStyles = makeStyles((theme) => ({
       marginTop: "33vh",
     },
   },
+  spaceBetween:{
+    justifyContent:"space-between",
+  },
+  block:{
+    "& .MuiDataGrid-footerContainer":{
+      display:"block !important",
+      marginLeft:"10px"
+    }
+  }
+
 }));
 export default useStyles;
