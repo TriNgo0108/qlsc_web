@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid,GridColDef } from "@material-ui/data-grid";
+import { DataGrid} from "@material-ui/data-grid";
 import { IconButton } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +8,7 @@ import useStyles from "../styles/styles";
 import clsx from "clsx";
 import { useState } from "react";
 
-export default function CustomGird({ rows, onPageChange, loading }) {
+export default function CustomGird({ rows, sizeQuery,onPageChange, loading }) {
   const classes = useStyles();
   const [page, setPage] = useState(1);
   const columns = [
@@ -48,7 +48,7 @@ export default function CustomGird({ rows, onPageChange, loading }) {
         }}
         rows={rows}
         columns={columns}
-        pageSize={5}
+        pageSize={30}
         page={page-1}
         disableSelectionOnClick={true}
         disableColumnMenu={true}
@@ -58,20 +58,29 @@ export default function CustomGird({ rows, onPageChange, loading }) {
             return <strong>Không có dữ liệu</strong>;
           },
           Pagination: () => {
+            let count = ()=>{
+              let countPage  = 0 ;
+              let length = sizeQuery;
+              while (length > 0){
+                countPage++;
+                length -= 30 ;
+              }
+              return countPage;
+            }
             return (
               <div className={clsx(classes.row, classes.spaceBetween)}>
                 <div>
-                  Hiển thị {rows.length === 0? 0 :page * 5 - 4} - {rows.length === 0 ? 0 :  page * 5} trên tổng {rows.length} báo
+                  Hiển thị {rows.length === 0? 0 :page * 30 - (30 - 1 )} - {rows.length === 0 ? 0 :  rows.length} trên tổng {rows.length} báo
                   cáo
                 </div>
                 <div>
                   <Pagination
-                    count={Math.floor(rows.length / 5)}
+                    count={count()}
                     color="primary"
                     page={page}
                     onChange={(event, page) => {
                       setPage(page);
-                      if (page * 5 === rows.length) onPageChange();
+                      onPageChange(page);
                     }}
                   />
                 </div>

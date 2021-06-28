@@ -26,6 +26,7 @@ const ListReport = ({fromDate,toDate}) => {
   const [page,setPage] = useState(1);
   const [searchKey,setSearchKey] = useState("");
   const [isLoading,setLoading] = useState(true);
+  const [sizeQuery,setSizeQuery] = useState(0);
   const searchRef = useRef("");
   const  prePage = useRef(1);
   const incidentList = useRef([]);
@@ -40,8 +41,8 @@ const ListReport = ({fromDate,toDate}) => {
     setSearchKey(searchRef.current.value);
     setLoading(true);
   };
-  const onPageChange = () =>{
-    setPage(page+1);
+  const onPageChange = (page) =>{
+    setPage(page);
     setLoading(true);
   }
   const objectData = (page,incidentObject,reportStatus,reportType,department,fromDate,toDate,searchKey)=>{
@@ -126,6 +127,7 @@ const ListReport = ({fromDate,toDate}) => {
       if (response_report.status === 200) {
         if (response_report.data.code === 200){
           reportsList = response_report.data.data.data;
+          setSizeQuery(response_report.data.data.sizeQuerySnapshot);
         }
         else{
           reportsList = [];
@@ -133,7 +135,7 @@ const ListReport = ({fromDate,toDate}) => {
         setLoading(false)
       }
       try {
-        if (prePage.current === page){
+        if (prePage.current === page || prePage.current > page){
           pageCount.current = 0;
         }
         else{
@@ -157,11 +159,11 @@ const ListReport = ({fromDate,toDate}) => {
           report.reportTime = format(date,"dd/MM/yyyy HH:mm");
         });
         console.log(page)
-        if (prePage.current !== page){
+        if (prePage.current > page){
           console.log("Loading new reports");
           let newReportList = [...reports,...reportsList]  
           setReports(newReportList);
-          prePage.current = prePage.current +1 ;
+          prePage.current = page;
         }
         else{
           console.log("Create new reports");
@@ -267,7 +269,7 @@ const ListReport = ({fromDate,toDate}) => {
             </FormControl>
           </div>
         </div>
-        <CustomGird rows={reports} onPageChange={onPageChange} loading={isLoading} />
+        <CustomGird rows={reports} onPageChange={onPageChange} loading={isLoading} sizeQuery={sizeQuery} />
       </form>
     </Container>
   );
