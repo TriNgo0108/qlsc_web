@@ -137,7 +137,7 @@ const ListReport = ({fromDate,toDate}) => {
           pageCount.current = 0;
         }
         else{
-            pageCount.current = reportsList.length + 5;
+            pageCount.current = reports.length;
         }
         reportsList.forEach((report,index) => {
           report.index = index +1 + pageCount.current ;
